@@ -1,5 +1,29 @@
-<%= render "form"%>
-
-<% @posts.each do |p| %>
-    <h1><%=p.title%> </h1>
-<%end%>
+<div class="columns">
+    <div class="column">
+        <div class="block">
+            <%= render "users/profile" %>
+        </div>
+        <div class="block">
+            <%= render "users/notifications" %>
+        </div>
+        <div class="block">
+            <%= render "users/recommended" %>
+        </div>
+    </div>
+    <div class="column">
+        <div class="block">
+            <%= render "feed" %>
+        </div>
+        <div class="block">
+            <%= render "form" %>
+        </div>
+    </div>
+    <div class="column">
+        <div class="block">
+            <%= render "groups/index" %>
+        </div>
+        <div class="block">
+            <%= render "groups/form" %>
+        </div>
+    </div>
+</div>

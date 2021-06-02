@@ -1,0 +1,21 @@
+<%= form_with(model: @group) do |form| %>
+  <% if @group.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@group.errors.count, "error") %> prohibited this post from being saved:</h2>
+
+      <ul>
+        <% @group.errors.each do |error| %>
+          <li><%= error.full_message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= form.text_field :name, class:"input", placeholder:"Group name" %>
+  </div>
+
+  <div class="actions has-text-centered">
+    <%= form.submit "Create group", class:"button is-info"%>
+  </div>
+<% end %>

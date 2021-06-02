@@ -1,18 +1,28 @@
 class PostsController < ApplicationController
+    before_action :authenticate_user!
+    
     def show
     end
     def index
-        @posts = Post.all
-        @post = Post.new
+        @users = User.all
+        if params[:user_id]
+            @user = User.find(params[:user_id])
+            @posts = @user.posts
+        else
+            @user = current_user
+            @posts = Post.all
+        end
+        @post = current_user.posts.new
+        @group = current_user.created_groups.new
     end
     def new
-        @post = Post.new
+        @post = current_user.posts.new
     end
     def create
-        @post = Post.create(post_params)
+        @post = current_user.posts.create(post_params)
     
         if @post.save
-            redirect_to @post, notice: "Post was successfully created."
+            redirect_back(fallback_location: root_path, notice: "Post was successfully created.")
         else
             render :new, status: :unprocessable_entity
         end
@@ -20,15 +30,16 @@ class PostsController < ApplicationController
 
     def update
         if @post.update(post_params)
-            redirect_to @post, notice: "Post was successfully updated."
+            redirect_to :back, notice: "Post was successfully updated."
         else
             render :edit, status: :unprocessable_entity
         end
     end
 
     def destroy
+        @post = Post.find(params[:id])
         @post.destroy
-        redirect_to posts_url, notice: "Post was successfully destroyed."
+        redirect_back(fallback_location: root_path, notice: "Post was successfully destroyed.")
     end
 
     private

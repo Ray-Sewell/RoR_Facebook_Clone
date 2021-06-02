@@ -1,0 +1,10 @@
+<p>created groups go here</p>
+<% current_user.created_groups.each do |g| %>
+    <p><%= g.name %></p>
+<%end%>
+
+<p>joined groups go here</p>
+<% current_user.groups.each do |g| %>
+    <p><%= g.name %></p>
+<%end%>
+

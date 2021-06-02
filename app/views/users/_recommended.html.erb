@@ -1,0 +1,4 @@
+<p>recommended users go here</p>
+<% @users.each do |u| %>
+    <%= link_to u.name, root_path(:user_id => u.id) %>
+<%end%>

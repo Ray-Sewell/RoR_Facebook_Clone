@@ -1,31 +1,26 @@
-<div class="level">
-  <div class="level-item">
-    <%= form_with(model: @post) do |form| %>
-      <% if @post.errors.any? %>
-        <div id="error_explanation">
-          <h2><%= pluralize(@post.errors.count, "error") %> prohibited this post from being saved:</h2>
 
-          <ul>
-            <% @post.errors.each do |error| %>
-              <li><%= error.full_message %></li>
-            <% end %>
-          </ul>
-        </div>
-      <% end %>
+<%= form_with(model: @post) do |form| %>
+  <% if @post.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@post.errors.count, "error") %> prohibited this post from being saved:</h2>
 
-      <div class="field">
-        <%= form.label :title, class:"label" %>
-        <%= form.text_field :title, class:"input" %>
-      </div>
+      <ul>
+        <% @post.errors.each do |error| %>
+          <li><%= error.full_message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
 
-      <div class="field">
-        <%= form.label :body, class:"label" %>
-        <%= form.text_area :body, class:"textarea"%>
-      </div>
-
-      <div class="actions has-text-centered">
-        <%= form.submit "Create post", class:"button is-success"%>
-      </div>
-    <% end %>
+  <div class="field">
+    <%= form.text_field :title, class:"input", placeholder:"Post title" %>
   </div>
-</div>
+
+  <div class="field">
+    <%= form.text_area :body, class:"textarea", placeholder:"Post body"%>
+  </div>
+
+  <div class="actions has-text-centered">
+    <%= form.submit "Create post", class:"button is-info"%>
+  </div>
+<% end %>
