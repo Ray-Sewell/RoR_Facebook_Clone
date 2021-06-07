@@ -1,10 +1,10 @@
 <p>created groups go here</p>
 <% current_user.created_groups.each do |g| %>
-    <p><%= g.name %></p>
+    <p><%= link_to g.name, root_path(:group_id => g.id)%></p>
 <%end%>
 
 <p>joined groups go here</p>
 <% current_user.groups.each do |g| %>
-    <p><%= g.name %></p>
+    <p><%= link_to g.name, root_path(:group_id => g.id)%></p>
 <%end%>
 

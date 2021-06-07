@@ -8,6 +8,10 @@ class PostsController < ApplicationController
         if params[:user_id]
             @user = User.find(params[:user_id])
             @posts = @user.posts
+        elsif params[:group_id]
+            @current_group = Group.find(params[:group_id])
+            @user = current_user
+            @posts = @current_group.posts
         else
             @user = current_user
             @posts = Post.all
@@ -19,12 +23,18 @@ class PostsController < ApplicationController
         @post = current_user.posts.new
     end
     def create
-        @post = current_user.posts.create(post_params)
-    
+        @post = Post.new(post_params)
+        unless @post.group_id.empty?
+            @current_group = Group.find(@post.group_id)
+            @post = @current_group.posts.create(post_params)
+        else
+            @post = current_user.posts.create(post_params)
+        end
+
         if @post.save
             redirect_back(fallback_location: root_path, notice: "Post was successfully created.")
         else
-            render :new, status: :unprocessable_entity
+            render "form", status: :unprocessable_entity
         end
     end
 
@@ -38,12 +48,16 @@ class PostsController < ApplicationController
 
     def destroy
         @post = Post.find(params[:id])
-        @post.destroy
-        redirect_back(fallback_location: root_path, notice: "Post was successfully destroyed.")
+        if current_user == @post.author
+            @post.destroy
+            redirect_back(fallback_location: root_path, notice: "Post was successfully destroyed.")
+        else
+            redirect_back(fallback_location: root_path, alert: "You must be the owner of this post to destroy it.")
+        end
     end
 
     private
         def post_params
-            params.require(:post).permit(:title, :body)
+            params.require(:post).permit(:title, :body, :author_id, :group_id)
         end
 end

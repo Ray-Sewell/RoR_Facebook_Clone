@@ -1,7 +1,11 @@
 <p>post feed goes here</p>
 
 <% @posts.each do |p| %>
-    <p><%=p.title%></p>
-    <p><%=p.body%></p>
-    <%= link_to "delete post", p, method: :delete, data: { confirm: 'Are you sure?' }, class:"is-size-7"%>
+    <div class="block">
+        <p><%=p.title%></p>
+        <p><%=p.body%></p>
+        <% if current_user == p.author %>
+            <%= link_to "delete post", p, method: :delete, data: { confirm: 'Are you sure?' }, class:"is-size-7"%>
+        <% end %>
+    </div>
 <%end%>
