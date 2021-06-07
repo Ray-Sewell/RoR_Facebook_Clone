@@ -1,8 +1,6 @@
 class PostsController < ApplicationController
     before_action :authenticate_user!
     
-    def show
-    end
     def index
         @users = User.all
         if params[:user_id]
@@ -19,6 +17,7 @@ class PostsController < ApplicationController
         @post = Post.new
         @comment = Comment.new
         @group = Group.new
+        @like = Like.new
     end
     def new
         @post = current_user.posts.new

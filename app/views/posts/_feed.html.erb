@@ -10,6 +10,18 @@
         <% p.comments.each do |c| %>
             <p><%=c.body%></p>
         <% end %>
+        <% unless current_user.liked_posts.include?(p) %>
+            <%= form_with(model: @like) do |form| %>
+                <%= form.hidden_field :post_id, :value => p.id %>
+                <%= form.hidden_field :user_id, :value => current_user.id %>
+                <%= form.submit "Like", class:"button is-info"%>
+            <% end %>
+        <% end %>
+        <% if p.likes.count > 0 %>
+            <p><%= p.likes.count %> users have liked this post!</p>
+        <% else %>
+            <p>Be the first to like this post!</p>
+        <% end %>
         <%= form_with(model: @comment) do |form| %>
             <div class="level">
                 <div class="level-item">

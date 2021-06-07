@@ -6,4 +6,6 @@ class Post < ApplicationRecord
     has_many :groups, through: :groups_posts, source: :group
 
     attr_accessor :group_id
+
+    has_many :likes
 end
