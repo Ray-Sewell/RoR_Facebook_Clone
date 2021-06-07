@@ -16,8 +16,9 @@ class PostsController < ApplicationController
             @user = current_user
             @posts = Post.all
         end
-        @post = current_user.posts.new
-        @group = current_user.created_groups.new
+        @post = Post.new
+        @comment = Comment.new
+        @group = Group.new
     end
     def new
         @post = current_user.posts.new
@@ -27,8 +28,6 @@ class PostsController < ApplicationController
         unless @post.group_id.empty?
             @current_group = Group.find(@post.group_id)
             @post = @current_group.posts.create(post_params)
-        else
-            @post = current_user.posts.create(post_params)
         end
 
         if @post.save
