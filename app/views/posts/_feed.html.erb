@@ -1,42 +1,76 @@
-<p>post feed goes here</p>
-
 <% @posts.each do |p| %>
     <div class="block">
-        <p><%=p.title%></p>
-        <p><%=p.body%></p>
-        <% if current_user == p.author %>
-            <%= link_to "delete post", p, method: :delete, data: { confirm: 'Are you sure?' }, class:"is-size-7"%>
-        <% end %>
-        <% p.comments.each do |c| %>
-            <p><%=c.body%></p>
-        <% end %>
-        <% unless current_user.liked_posts.include?(p) %>
-            <%= form_with(model: @like) do |form| %>
-                <%= form.hidden_field :post_id, :value => p.id %>
-                <%= form.hidden_field :user_id, :value => current_user.id %>
-                <%= form.submit "Like", class:"button is-info"%>
-            <% end %>
-        <% end %>
-        <% if p.likes.count > 0 %>
-            <p><%= p.likes.count %> users have liked this post!</p>
-        <% else %>
-            <p>Be the first to like this post!</p>
-        <% end %>
-        <%= form_with(model: @comment) do |form| %>
-            <div class="level">
-                <div class="level-item">
-                    <div class="field">
-                        <%= form.text_field :body, class:"input", placeholder:"Comment body" %>
-                    </div>
-                </div>
-                <%= form.hidden_field :post_id, :value => p.id %>
-                <%= form.hidden_field :author_id, :value => current_user.id %>
-                <div class="level-item">
-                    <div class="actions">
-                        <%= form.submit "Comment", class:"button is-info"%>
-                    </div>
-                </div>
+        <div class="card">
+            <div class="card-header">
+                <div class="card-header-icon"></div> 
+                <p class="card-header-title">
+                    <%= p.title %> 
+                    <% if p.group %>
+                        <i>></i> <%= link_to p.group.name, root_path(:group_id => p.group.id) %>
+                    <% end %>
+                </p>
             </div>
-        <% end %>
+            <div class="card-content pb-0">
+                <p><%= p.body%></p>
+            </div>
+
+            <div class="card-content pb-0">
+                <% if p.comments.count > 0 %>
+                    <% p.comments.each do |c| %>
+                        <%= link_to c.author.name, root_path(:user_id => c.author.id)%>
+                        > <%=c.body%> <i>@ <%=c.created_at.to_formatted_s(:short)%></i><br>
+                    <% end %>
+                <% else %>
+                    <p>There are no comments here! Feel free to leave a nice message :)</p>
+                <% end %>
+            </div>
+            <div class="card-content pb-0">
+                <%= form_for @comment do |form| %>
+                    <div class="level">
+                        <div class="level-item">
+                            <div class="field">
+                                <%= form.text_field :body, class:"input", placeholder:"Comment body" %>
+                            </div>
+                        </div>
+                        <%= form.hidden_field :post_id, :value => p.id %>
+                        <%= form.hidden_field :author_id, :value => current_user.id %>
+                        <div class="level-item">
+                            <div class="actions">
+                                <%= form.submit "Comment", class:"button is-info"%>
+                            </div>
+                        </div>
+                    </div>
+                <% end %>
+            </div>
+            <div class="card-content">
+                <% if p.likes.count > 0 %>
+                    <% p.user_likes.each do |ul| %>
+                        <%= link_to ul.name, root_path(:user_id => ul.id)%>
+                    <%end%>
+                    liked this post!
+                <% else %>
+                    <p>Be the first to like this post!</p>
+                <% end %>
+            </div>
+            <div class="card-footer">
+                <% if current_user == p.author %>
+                    <%= link_to "delete post", p, method: :delete, data: { confirm: 'Are you sure?' }, class:"card-footer-item"%>
+                <% end %>
+                        
+                <% unless current_user.liked_posts.include?(p) %>
+                    <%= form_for @like, html: {class: 'card-footer-item'} do |form| %>
+                        <%= form.hidden_field :post_id, :value => p.id %>
+                        <%= form.hidden_field :user_id, :value => current_user.id %>
+                        <%= form.submit "Like", class:"button is-info"%>
+                    <% end %>
+                <% end %>
+                
+            </div>        
+        </div>
+
+        
+
+        
+
     </div>
 <%end%>
