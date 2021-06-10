@@ -1,0 +1,12 @@
+<%= form_with(model: @invite) do |form| %>
+  <div class="field">
+    <%= form.text_field :invitee_id, class:"input", placeholder:"User name" %>
+  </div>
+
+  <%= form.hidden_field :sender_id, :value => current_user.id %>
+  <%= form.hidden_field :group_id, :value => params[:group_id] %>
+
+  <div class="actions has-text-centered">
+    <%= form.submit "Invite user", class:"button is-info"%>
+  </div>
+<% end %>

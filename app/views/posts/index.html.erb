@@ -22,6 +22,13 @@
         <div class="block">
             <%= render "groups/form" %>
         </div>
+        <% if @current_group %>
+            <% if current_user == @current_group.leader %>
+                <div class="block">
+                    <%= render "invites/form"%>
+                </div>
+            <% end %>
+        <% end %>
         <div class="block">
             <%= render "form" %>
         </div>

@@ -6,4 +6,6 @@ class Group < ApplicationRecord
 
     has_many :groups_posts
     has_many :posts, through: :groups_posts, source: :post
+
+    has_many :invites
 end

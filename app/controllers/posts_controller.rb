@@ -18,6 +18,7 @@ class PostsController < ApplicationController
         @comment = Comment.new
         @group = Group.new
         @like = Like.new
+        @invite = Invite.new
     end
     def new
         @post = current_user.posts.new

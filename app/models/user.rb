@@ -14,4 +14,7 @@ class User < ApplicationRecord
 
   has_many :groups_users
   has_many :groups, through: :groups_users, source: :group
+
+  has_many :pending_invites, class_name:"Invite", foreign_key: "invitee_id"
+  has_many :sent_invites, class_name:"Invite", foreign_key: "sender_id"
 end
