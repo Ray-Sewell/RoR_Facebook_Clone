@@ -9,14 +9,20 @@
     </div>
 <% end %>
 <% @pending_invites.each do |i| %>
-    <% if i.group.nil? %>
+    <% if i.group.nil? || current_user.groups.include?(i.group) %>
         <% i.destroy %>
     <% else %>
         <div class="notification p-4">
             <p>You have been invited to:
             <%= link_to i.group.name, root_path(:group_id => i.group.id)%><br>
-            <%= link_to "accept", i, method: :delete, data: { confirm: 'Are you sure?' }, class:"button p-2"%>
-            <%= link_to "decline", i, method: :delete, data: { confirm: 'Are you sure?' }, class:"button p-2"%>
+            <%= form_with(model: @groups_user) do |form| %>
+                <%= form.hidden_field :user_id, :value => i.invited_user.id %>
+                <%= form.hidden_field :group_id, :value => i.group.id %>
+                <div class="actions">
+                    <%= form.submit "accept", class:"button p-2"%>
+                    <%= link_to "decline", i, method: :delete, class:"button p-2"%>
+                </div>
+            <% end %>
             </p>
         </div>
     <% end %>

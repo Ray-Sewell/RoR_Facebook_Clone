@@ -20,6 +20,7 @@ class PostsController < ApplicationController
         @like = Like.new
         @invite = Invite.new
         @pending_invites = current_user.pending_invites
+        @groups_user = GroupsUser.new
     end
     def new
         @post = current_user.posts.new
@@ -37,15 +38,7 @@ class PostsController < ApplicationController
             render "form", status: :unprocessable_entity
         end
     end
-
-    def update
-        if @post.update(post_params)
-            redirect_to :back, notice: "Post was successfully updated."
-        else
-            render :edit, status: :unprocessable_entity
-        end
-    end
-
+    
     def destroy
         @post = Post.find(params[:id])
         if current_user == @post.author
