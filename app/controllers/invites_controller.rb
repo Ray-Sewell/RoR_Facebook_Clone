@@ -13,7 +13,11 @@ class InvitesController < ApplicationController
             redirect_back(fallback_location: root_path, alert: "Failed to find user.")
         end
     end
-
+    def destroy
+        @invite = Invite.find(params[:id])
+        @invite.destroy
+        redirect_back(fallback_location: root_path, notice: "Invite was rejected.")
+    end
     private
         def invite_params
             params.require(:invite).permit(:invitee_id, :sender_id, :group_id)

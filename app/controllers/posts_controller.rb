@@ -19,6 +19,7 @@ class PostsController < ApplicationController
         @group = Group.new
         @like = Like.new
         @invite = Invite.new
+        @pending_invites = current_user.pending_invites
     end
     def new
         @post = current_user.posts.new

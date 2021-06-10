@@ -8,3 +8,16 @@
     <p class="alert"><%= alert %></p>
     </div>
 <% end %>
+<% @pending_invites.each do |i| %>
+    <% if i.group.nil? %>
+        <% i.destroy %>
+    <% else %>
+        <div class="notification p-4">
+            <p>You have been invited to:
+            <%= link_to i.group.name, root_path(:group_id => i.group.id)%><br>
+            <%= link_to "accept", i, method: :delete, data: { confirm: 'Are you sure?' }, class:"button p-2"%>
+            <%= link_to "decline", i, method: :delete, data: { confirm: 'Are you sure?' }, class:"button p-2"%>
+            </p>
+        </div>
+    <% end %>
+<% end %>
