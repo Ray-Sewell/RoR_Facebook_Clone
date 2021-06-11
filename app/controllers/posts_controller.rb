@@ -2,17 +2,19 @@ class PostsController < ApplicationController
     before_action :authenticate_user!
     
     def index
-        @users = User.all
         if params[:user_id]
             @user = User.find(params[:user_id])
             @posts = @user.posts
+            @recommended_users = User.all
         elsif params[:group_id]
             @current_group = Group.find(params[:group_id])
             @user = current_user
             @posts = @current_group.posts
+            @recommended_users = @current_group.users
         else
             @user = current_user
             @posts = Post.all
+            @recommended_users = User.all
         end
         @post = Post.new
         @comment = Comment.new

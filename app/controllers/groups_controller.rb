@@ -12,6 +12,7 @@ class GroupsController < ApplicationController
         @group = current_user.created_groups.create(group_params)
     
         if @group.save
+            GroupsUser.create(user_id: @group.leader.id, group_id: @group.id)
             redirect_back(fallback_location: root_path, notice: "Group was successfully created.")
         else
             render :new, status: :unprocessable_entity

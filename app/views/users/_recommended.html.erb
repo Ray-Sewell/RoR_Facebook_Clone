@@ -1,4 +1,13 @@
-<p>recommended users go here</p>
-<% @users.each do |u| %>
-    <%= link_to u.name, root_path(:user_id => u.id) %>
-<%end%>
+<aside class="menu">
+    <% if @current_group %>
+        <p class="menu-label">Users of <%= @current_group.name %></p>
+    <% else %>
+        <p class="menu-label">Other users</p>
+    <% end %>
+    
+    <ul class="menu-list">
+        <% @recommended_users.each do |u| %>
+            <li><%= link_to u.name, root_path(:user_id => u.id) %></li>
+        <%end%>
+    </ul>
+</aside>

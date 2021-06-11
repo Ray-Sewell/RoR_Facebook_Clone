@@ -29,8 +29,18 @@
                 </div>
             <% end %>
         <% end %>
-        <div class="block">
-            <%= render "form" %>
-        </div>
+        <% if @current_group %>
+            <% if current_user.groups.include?(@current_group) %>
+                <div class="block">
+                    <%= render "form" %>
+                </div>
+            <% else %>
+                <p class="notification">You do not have access to post here!</p>
+            <% end %>
+        <% else %>
+            <div class="block">
+                <%= render "form" %>
+            </div>
+        <% end %>
     </div>
 </div>

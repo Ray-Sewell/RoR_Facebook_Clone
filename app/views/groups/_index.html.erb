@@ -1,10 +1,17 @@
-<p>created groups go here</p>
-<% current_user.created_groups.each do |g| %>
-    <p><%= link_to g.name, root_path(:group_id => g.id)%></p>
-<%end%>
-
-<p>joined groups go here</p>
-<% current_user.groups.each do |g| %>
-    <p><%= link_to g.name, root_path(:group_id => g.id)%></p>
-<%end%>
+<aside class="menu">
+    <p class="menu-label">Created groups</p>
+    <ul class="menu-list">
+        <% current_user.created_groups.each do |g| %>
+            <li><%= link_to g.name, root_path(:group_id => g.id)%></li>
+        <%end%>
+    </ul>
+    <p class="menu-label">Joined groups</p>
+    <ul class="menu-list">
+        <% current_user.groups.each do |g| %>
+            <% unless current_user.created_groups.include?(g) %>
+                <li><%= link_to g.name, root_path(:group_id => g.id)%></li>
+            <% end %>
+        <%end%>
+    </ul>
+</aside>
 
