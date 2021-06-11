@@ -5,9 +5,20 @@ class CommentsController < ApplicationController
         if @comment.save
             redirect_back(fallback_location: root_path, notice: "Comment was successfully created.")
         else
-            redirect_back(fallback_location: root_path, notice: "Comment could not be saved.")
+            redirect_back(fallback_location: root_path, alert: "Comment could not be saved.")
         end
     end
+
+    def destroy
+        @comment = Comment.find(params[:id])
+        if current_user == @comment.author
+            @comment.destroy
+            redirect_back(fallback_location: root_path, notice: "Comment was successfully destroyed.")
+        else
+            redirect_back(fallback_location: root_path, alert: "You must be the owner of this comment to destroy it.")
+        end
+    end
+
 
     private
         def comment_params

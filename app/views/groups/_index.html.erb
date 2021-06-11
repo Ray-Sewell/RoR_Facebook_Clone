@@ -2,7 +2,10 @@
     <p class="menu-label">Created groups</p>
     <ul class="menu-list">
         <% current_user.created_groups.each do |g| %>
-            <li><%= link_to g.name, root_path(:group_id => g.id)%></li>
+            <div class="level-left">
+                <%= link_to g.name, root_path(:group_id => g.id), class:"mr-2"%>
+                <%= link_to "delete", g, method: :delete, data: { confirm: 'Are you sure?' }, class:"delete"%>
+            </div>
         <%end%>
     </ul>
     <p class="menu-label">Joined groups</p>
@@ -14,4 +17,3 @@
         <%end%>
     </ul>
 </aside>
-

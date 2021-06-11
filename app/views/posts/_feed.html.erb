@@ -25,7 +25,11 @@
                 <p class="is-size-7">No comments here! Feel free to leave a nice message :)</p>
             <% else %>
                 <% p.comments.each do |c| %>
-                    <li><p><%= c.body %><i class="is-size-7"> comment by <%= link_to c.author.name, root_path(:user_id => c.author.id)%> at <%=c.created_at.to_formatted_s(:short)%></i></p></li>
+                    <li><p><%= c.body %><i class="is-size-7"> comment by <%= link_to c.author.name, root_path(:user_id => c.author.id)%> at <%=c.created_at.to_formatted_s(:short)%></i>
+                    <% if current_user == c.author %>
+                        <%= link_to "delete", c, method: :delete, data: { confirm: 'Are you sure?' }, class:"delete is-small ml-1 mt-1"%>
+                    <% end %>
+                    </p></li>
                 <% end %>
             <%end%>
         </ul>
@@ -37,7 +41,11 @@
             <%= form.hidden_field :post_id, :value => p.id %>
             <%= form.hidden_field :author_id, :value => current_user.id %>
         <% end %>
-        <p class="is-size-7 mt-4"><i>Posted at <%= p.created_at.to_formatted_s(:short) %> by <%= link_to p.author.name, root_path(:user_id => p.author.id)%></i></p>
+        <p class="is-size-7 mt-4"><i>Posted at <%= p.created_at.to_formatted_s(:short) %> by <%= link_to p.author.name, root_path(:user_id => p.author.id)%>
+        <% if p.group %>
+            to <%= link_to p.group.name, root_path(:group_id => p.group.id)%>
+        <% end %>
+        </i></p>
         <div class="level mt-4">
             <% if p.likes.empty? %>
                 <p>Be the first to show this post some love!</p>

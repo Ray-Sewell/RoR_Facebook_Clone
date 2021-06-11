@@ -7,7 +7,9 @@
     
     <ul class="menu-list">
         <% @recommended_users.each do |u| %>
-            <li><%= link_to u.name, root_path(:user_id => u.id) %></li>
+            <% unless current_user == u %>
+                <li><%= link_to u.name, root_path(:user_id => u.id) %></li>
+            <% end %>
         <%end%>
     </ul>
 </aside>
