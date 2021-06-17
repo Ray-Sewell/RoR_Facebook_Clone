@@ -27,3 +27,20 @@
         </div>
     <% end %>
 <% end %>
+<% @pending_friend_invites.each do |i| %>
+    <% if i.sender.nil? || current_user.accepted_friends.include?(i.sender) %>
+        <% i.destroy %>
+    <% else %>
+        <div class="notification p-4">
+            <p>You have a friend invite from <%= link_to i.sender.name, root_path(:user_id => i.sender.id)%>!</p>
+            <%= form_with(model: @friend) do |form| %>
+                <%= form.hidden_field :user_id, :value => i.reciever.id %>
+                <%= form.hidden_field :friend_id, :value => i.sender.id %>
+                <div class="actions">
+                    <%= form.submit "accept", class:"button p-2"%>
+                    <%= link_to "decline", i, method: :delete, class:"button p-2"%>
+                </div>
+            <% end %>
+        </div>
+    <% end %>
+<% end %>

@@ -23,6 +23,9 @@ class PostsController < ApplicationController
         @invite = Invite.new
         @pending_invites = current_user.pending_invites
         @groups_user = GroupsUser.new
+        @friend = Friend.new
+        @friend_invite = FriendInvite.new
+        @pending_friend_invites = current_user.pending_friend_invites
     end
     def new
         @post = current_user.posts.new

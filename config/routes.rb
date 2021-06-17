@@ -3,9 +3,11 @@ Rails.application.routes.draw do
   resources :posts
   resources :groups
   resources :users
+  resources :friends
   resources :comments, only: [:create, :destroy]
   resources :likes, only: [:create, :destroy]
   resources :invites, only: [:create, :destroy]
+  resources :friend_invites, only: [:create, :destroy]
   resources :groups_users, only: [:create, :destroy]
   root "posts#index"
   # For details on the DSL available within this file, see https://guides.rubyonrails.org/routing.html

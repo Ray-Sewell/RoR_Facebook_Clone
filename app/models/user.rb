@@ -18,5 +18,11 @@ class User < ApplicationRecord
   has_many :pending_invites, class_name:"Invite", foreign_key: "invitee_id"
   has_many :sent_invites, class_name:"Invite", foreign_key: "sender_id"
 
+  has_many :pending_friend_invites, class_name:"FriendInvite", foreign_key: "reciever_id"
+  has_many :sent_friend_invites, class_name:"FriendInvite", foreign_key: "sender_id"
+ 
+  has_many :friends, dependent: :destroy
+  has_many :accepted_friends, through: :friends, source: :friend
+
   validates :name, presence: true, length: {minimum: 4, maximum: 30}
 end

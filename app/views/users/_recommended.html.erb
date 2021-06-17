@@ -7,9 +7,23 @@
     
     <ul class="menu-list">
         <% @recommended_users.each do |u| %>
-            <% unless current_user == u %>
-                <li><%= link_to u.name, root_path(:user_id => u.id) %></li>
+            <% unless current_user == u || current_user.accepted_friends.include?(u)%>
+                <li class="level-left"><%= link_to u.name, root_path(:user_id => u.id) %>
+                    <%= form_with(model: @friend_invite) do |form| %>
+                        <%= form.hidden_field :sender_id, :value => current_user.id %>
+                        <%= form.hidden_field :reciever_id, :value => u.id %>
+                        <div class="actions">
+                            <%= form.submit "Friend?", class:"button is-small ml-2"%>
+                        </div></li>
+                    <% end %>
             <% end %>
         <%end%>
+    </ul>
+
+    <p class="menu-label">Friends</p>
+    <ul class="menu-list">
+        <% current_user.accepted_friends.each do |f| %>
+            <%= link_to f.name, root_path(:user_id => f.id) %>
+        <% end %>
     </ul>
 </aside>

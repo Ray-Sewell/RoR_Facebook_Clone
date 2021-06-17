@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_06_10_105430) do
+ActiveRecord::Schema.define(version: 2021_06_11_141242) do
 
   create_table "comments", force: :cascade do |t|
     t.string "body"
@@ -18,6 +18,20 @@ ActiveRecord::Schema.define(version: 2021_06_10_105430) do
     t.datetime "updated_at", precision: 6, null: false
     t.integer "post_id"
     t.integer "author_id"
+  end
+
+  create_table "friend_invites", force: :cascade do |t|
+    t.integer "sender_id"
+    t.integer "reciever_id"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+  end
+
+  create_table "friends", force: :cascade do |t|
+    t.integer "user_id"
+    t.integer "friend_id"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
   end
 
   create_table "groups", force: :cascade do |t|
